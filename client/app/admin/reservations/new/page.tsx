@@ -11,6 +11,12 @@ interface SelectedExtra {
   quantity: number;
 }
 
+function isValidPhone(phone: string): boolean {
+  if (!phone) return true; // optional field
+  const cleaned = phone.replace(/[\s\-\(\)]/g, '');
+  return /^\+?\d{8,15}$/.test(cleaned);
+}
+
 export default function AdminNewReservationPage() {
   const router = useRouter();
   const [cars, setCars] = useState<Car[]>([]);
@@ -18,6 +24,7 @@ export default function AdminNewReservationPage() {
   const [extras, setExtras] = useState<Extra[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
 
   const [form, setForm] = useState({
     car_id: '',
@@ -73,6 +80,11 @@ export default function AdminNewReservationPage() {
     e.preventDefault();
     if (!form.car_id || !form.pickup_location || !form.dropoff_location || !form.pickup_date || !form.dropoff_date || !form.customer_name) {
       setError('Please fill in all required fields');
+      return;
+    }
+    if (form.customer_phone && !isValidPhone(form.customer_phone)) {
+      setPhoneError('Enter a valid phone number (e.g. +383 44 123 456)');
+      setError('Please fix the phone number');
       return;
     }
     setLoading(true);
@@ -135,7 +147,27 @@ export default function AdminNewReservationPage() {
             </div>
             <div>
               <label className={labelClass}>Phone</label>
-              <input className={inputClass} value={form.customer_phone} onChange={e => update('customer_phone', e.target.value)} placeholder="+383 44 ..." />
+              <input
+                type="tel"
+                className={`${inputClass} ${phoneError ? 'border-red-400 focus:ring-red-200 focus:border-red-400' : ''}`}
+                value={form.customer_phone}
+                onChange={e => {
+                  const val = e.target.value;
+                  if (val === '' || /^[+\d\s\-()]*$/.test(val)) {
+                    update('customer_phone', val);
+                    setPhoneError('');
+                  }
+                }}
+                onBlur={() => {
+                  if (form.customer_phone && !isValidPhone(form.customer_phone)) {
+                    setPhoneError('Enter a valid phone number (e.g. +383 44 123 456)');
+                  } else {
+                    setPhoneError('');
+                  }
+                }}
+                placeholder="+383 44 123 456"
+              />
+              {phoneError && <p className="text-red-500 text-xs mt-1">{phoneError}</p>}
             </div>
           </div>
         </div>

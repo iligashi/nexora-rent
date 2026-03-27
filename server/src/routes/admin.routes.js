@@ -129,6 +129,58 @@ router.put('/reservations/:id/status', async (req, res, next) => {
   } catch (err) { next(err); }
 });
 
+// Extend reservation by adding extra days
+router.put('/reservations/:id/extend', async (req, res, next) => {
+  try {
+    const { extra_days } = req.body;
+    const days = parseInt(extra_days);
+    if (!days || days < 1 || days > 365) {
+      return res.status(400).json({ error: 'Please provide a valid number of days (1-365)' });
+    }
+
+    const { rows } = await query(`
+      SELECT r.*, c.price_per_day FROM reservations r
+      JOIN cars c ON c.id = r.car_id
+      WHERE r.id = $1
+    `, [req.params.id]);
+
+    if (rows.length === 0) return res.status(404).json({ error: 'Reservation not found' });
+    const reservation = rows[0];
+
+    if (['completed', 'cancelled', 'rejected'].includes(reservation.status)) {
+      return res.status(400).json({ error: 'Cannot extend a ' + reservation.status + ' reservation' });
+    }
+
+    const newDropoff = new Date(reservation.dropoff_date);
+    newDropoff.setDate(newDropoff.getDate() + days);
+    const newTotalDays = reservation.total_days + days;
+    const additionalCost = parseFloat(reservation.daily_rate) * days;
+    const newExtrasTotal = reservation.total_days > 0
+      ? (parseFloat(reservation.extras_total) / reservation.total_days) * newTotalDays
+      : parseFloat(reservation.extras_total);
+    const newTotalPrice = parseFloat(reservation.daily_rate) * newTotalDays + newExtrasTotal - parseFloat(reservation.discount || 0);
+
+    await query(`
+      UPDATE reservations
+      SET dropoff_date = $1, total_days = $2, extras_total = $3, total_price = $4
+      WHERE id = $5
+    `, [newDropoff.toISOString(), newTotalDays, newExtrasTotal, newTotalPrice, req.params.id]);
+
+    const { rows: updated } = await query(`
+      SELECT r.*, c.brand, c.model,
+        COALESCE(r.guest_name, CONCAT(u.first_name, ' ', u.last_name)) AS customer_name,
+        COALESCE(r.guest_phone, u.phone) AS customer_phone,
+        COALESCE(r.guest_email, u.email) AS customer_email
+      FROM reservations r
+      JOIN cars c ON c.id = r.car_id
+      LEFT JOIN users u ON u.id = r.user_id
+      WHERE r.id = $1
+    `, [req.params.id]);
+
+    res.json({ reservation: updated[0] });
+  } catch (err) { next(err); }
+});
+
 // Calendar data
 router.get('/reservations/calendar', async (req, res, next) => {
   try {

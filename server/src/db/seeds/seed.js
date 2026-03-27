@@ -39,7 +39,6 @@ async function seed() {
 
     // Cars
     const cars = [
-      ['Volkswagen', 'Golf 8', 2023, 'volkswagen-golf-8-2023', 'compact', 'petrol', 'manual', 5, 4, 150, 1498, 'White', '01-123-AA', null, 15000, 30, 180, 100, 'The iconic VW Golf 8 - perfect for city driving and highway comfort.', '["GPS","AC","Bluetooth","USB","Cruise Control","Parking Sensors"]', true, true],
       ['Mercedes-Benz', 'C-Class', 2023, 'mercedes-c-class-2023', 'luxury', 'diesel', 'automatic', 5, 4, 200, 1993, 'Black', '02-234-BB', null, 20000, 85, 500, 300, 'Elegant Mercedes C-Class with premium interior and advanced tech.', '["GPS","AC","Bluetooth","USB","Leather Seats","Cruise Control","Parking Sensors","Heated Seats","Sunroof"]', true, true],
       ['BMW', '3 Series', 2022, 'bmw-3-series-2022', 'sedan', 'diesel', 'automatic', 5, 4, 190, 1995, 'Grey', '03-345-CC', null, 25000, 75, 450, 250, 'Sporty BMW 3 Series with dynamic handling.', '["GPS","AC","Bluetooth","USB","Leather Seats","Cruise Control","Parking Sensors","Sport Mode"]', true, true],
       ['Toyota', 'RAV4', 2023, 'toyota-rav4-2023', 'suv', 'hybrid', 'automatic', 5, 4, 222, 2487, 'Silver', '04-456-DD', null, 10000, 55, 330, 200, 'Reliable Toyota RAV4 hybrid - perfect for Kosovo roads.', '["GPS","AC","Bluetooth","USB","Cruise Control","Parking Sensors","All-Wheel Drive","Apple CarPlay"]', true, false],
@@ -50,7 +49,6 @@ async function seed() {
       ['Volkswagen', 'Tiguan', 2022, 'volkswagen-tiguan-2022', 'suv', 'diesel', 'automatic', 5, 4, 150, 1968, 'Grey', '09-901-II', null, 22000, 50, 300, 150, 'Versatile VW Tiguan - ideal for family trips.', '["GPS","AC","Bluetooth","USB","Cruise Control","Parking Sensors","Apple CarPlay","All-Wheel Drive"]', true, false],
       ['Renault', 'Clio', 2023, 'renault-clio-2023', 'economy', 'petrol', 'manual', 5, 4, 90, 999, 'Orange', '10-012-JJ', null, 5000, 25, 150, 75, 'Compact Renault Clio - nimble and economical.', '["AC","Bluetooth","USB","Parking Sensors"]', true, false],
       ['Ford', 'Focus', 2022, 'ford-focus-2022', 'compact', 'petrol', 'manual', 5, 4, 125, 1498, 'Blue', '11-123-KK', null, 20000, 30, 180, 100, 'Dynamic Ford Focus with sporty handling.', '["GPS","AC","Bluetooth","USB","Cruise Control","Parking Sensors"]', true, false],
-      ['Audi', 'Q7', 2023, 'audi-q7-2023', 'suv', 'diesel', 'automatic', 7, 4, 286, 2967, 'Black', '12-234-LL', null, 12000, 100, 600, 400, 'Commanding Audi Q7 - 7 seats of luxury.', '["GPS","AC","Bluetooth","USB","Leather Seats","Cruise Control","Parking Sensors","Heated Seats","Panoramic Roof","Virtual Cockpit","All-Wheel Drive"]', true, true],
     ];
 
     for (const c of cars) {

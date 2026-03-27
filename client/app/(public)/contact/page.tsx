@@ -11,9 +11,20 @@ import { toast } from '@/components/ui/Toast';
 export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [loading, setLoading] = useState(false);
+  const [phoneError, setPhoneError] = useState('');
+
+  const isValidPhone = (phone: string): boolean => {
+    if (!phone) return true; // optional
+    const cleaned = phone.replace(/[\s\-\(\)]/g, '');
+    return /^\+?\d{8,15}$/.test(cleaned);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (form.phone && !isValidPhone(form.phone)) {
+      setPhoneError('Enter a valid phone number (e.g. +383 44 123 456)');
+      return;
+    }
     setLoading(true);
     try {
       await api.post('/contact', form);
@@ -77,9 +88,18 @@ export default function ContactPage() {
               </a>
             </div>
 
-            {/* Map placeholder */}
-            <div className="aspect-video bg-bg-secondary border border-border rounded-xl flex items-center justify-center">
-              <p className="text-text-muted text-sm">Map - Drenas, Kosovo</p>
+            {/* Map */}
+            <div className="aspect-video bg-bg-secondary border border-border rounded-xl overflow-hidden">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d23478.84825498741!2d20.879!3d42.627!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13538c4bbd9b0b4d%3A0x3e1b6e68e4481e6a!2sDrenas%2C%20Kosovo!5e0!3m2!1sen!2s!4v1700000000000"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Drenas, Kosovo - Drenas Rent a Car"
+              />
             </div>
           </div>
 
@@ -88,7 +108,27 @@ export default function ContactPage() {
             <h3 className="font-outfit font-semibold text-white text-xl mb-2">Send us a message</h3>
             <div className="grid grid-cols-2 gap-4">
               <Input label="Name" value={form.name} onChange={set('name')} placeholder="Your name" />
-              <Input label="Phone" value={form.phone} onChange={set('phone')} placeholder="+383 44 ..." />
+              <Input
+                label="Phone"
+                type="tel"
+                value={form.phone}
+                onChange={e => {
+                  const val = e.target.value;
+                  if (val === '' || /^[+\d\s\-()]*$/.test(val)) {
+                    setForm(prev => ({ ...prev, phone: val }));
+                    setPhoneError('');
+                  }
+                }}
+                onBlur={() => {
+                  if (form.phone && !isValidPhone(form.phone)) {
+                    setPhoneError('Enter a valid phone number (e.g. +383 44 123 456)');
+                  } else {
+                    setPhoneError('');
+                  }
+                }}
+                error={phoneError}
+                placeholder="+383 44 123 456"
+              />
             </div>
             <Input label="Email" type="email" value={form.email} onChange={set('email')} placeholder="your@email.com" />
             <Input label="Subject" value={form.subject} onChange={set('subject')} placeholder="Rental inquiry" />

@@ -47,6 +47,7 @@ export default function ReservePage() {
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [confirmationNo, setConfirmationNo] = useState('');
+  const [phoneError, setPhoneError] = useState('');
 
   useEffect(() => {
     api.get('/locations').then(r => setLocations(r.data.locations)).catch(() => {});
@@ -77,12 +78,18 @@ export default function ReservePage() {
   }, 0);
   const totalPrice = basePrice + extrasPrice;
 
+  const isValidPhone = (phone: string): boolean => {
+    if (!phone) return false;
+    const cleaned = phone.replace(/[\s\-\(\)]/g, '');
+    return /^\+?\d{8,15}$/.test(cleaned);
+  };
+
   const canProceed = () => {
     switch (store.step) {
       case 1: return store.pickupLocation && store.dropoffLocation && store.pickupDate && store.dropoffDate;
       case 2: return !!store.selectedCarId;
       case 3: return true;
-      case 4: return user || (store.guestName && store.guestEmail && store.guestPhone);
+      case 4: return user || (store.guestName && store.guestEmail && store.guestPhone && isValidPhone(store.guestPhone));
       default: return true;
     }
   };
@@ -333,9 +340,24 @@ export default function ReservePage() {
                     />
                     <Input
                       label="Phone"
+                      type="tel"
                       value={store.guestPhone}
-                      onChange={e => store.setGuest({ guestPhone: e.target.value })}
-                      placeholder="+383 44 ..."
+                      onChange={e => {
+                        const val = e.target.value;
+                        if (val === '' || /^[+\d\s\-()]*$/.test(val)) {
+                          store.setGuest({ guestPhone: val });
+                          setPhoneError('');
+                        }
+                      }}
+                      onBlur={() => {
+                        if (store.guestPhone && !isValidPhone(store.guestPhone)) {
+                          setPhoneError('Enter a valid phone number (e.g. +383 44 123 456)');
+                        } else {
+                          setPhoneError('');
+                        }
+                      }}
+                      error={phoneError}
+                      placeholder="+383 44 123 456"
                     />
                   </div>
                 )}
