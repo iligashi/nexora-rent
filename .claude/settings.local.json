@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find C:/xampp/htdocs/nexora-rent/server -name .env*)",
+      "Bash(npx tsc:*)"
+    ]
+  }
+}

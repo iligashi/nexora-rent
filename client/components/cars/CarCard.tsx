@@ -12,7 +12,7 @@ export default function CarCard({ car }: { car: Car }) {
   const { t } = useLanguageStore();
   const imgSrc = car.image
     ? (car.image.startsWith('http') ? car.image : `${process.env.NEXT_PUBLIC_API_URL?.replace('/api/v1', '')}${car.image}`)
-    : '/placeholder-car.jpg';
+    : 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80';
 
   return (
     <motion.div
