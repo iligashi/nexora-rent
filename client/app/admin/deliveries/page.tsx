@@ -479,13 +479,7 @@ export default function AdminDeliveriesPage() {
 
       {/* Table */}
       <DataTable
-        columns={
-          columns as {
-            key: string;
-            label: string;
-            render?: (row: Record<string, unknown>) => React.ReactNode;
-          }[]
-        }
+        columns={columns}
         data={deliveries}
         loading={loading}
         emptyMessage={t.noDeliveriesFound}

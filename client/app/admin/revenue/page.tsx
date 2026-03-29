@@ -110,7 +110,7 @@ export default function AdminRevenuePage() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" />
                 <XAxis dataKey="month" tick={{ fontSize: 12 }} stroke="#9CA3AF" />
                 <YAxis tick={{ fontSize: 12 }} stroke="#9CA3AF" tickFormatter={v => `€${v}`} />
-                <Tooltip formatter={(v: number, name: string) => [name === 'revenue' ? `€${v}` : v, name === 'revenue' ? 'Revenue' : 'Bookings']} />
+                <Tooltip formatter={(v: unknown, name: unknown) => [name === 'revenue' ? `€${v}` : String(v), name === 'revenue' ? 'Revenue' : 'Bookings'] as [string, string]} />
                 <Legend />
                 <Line type="monotone" dataKey="revenue" stroke="#FF4D30" strokeWidth={2} dot={{ r: 3 }} />
                 <Line type="monotone" dataKey="bookings" stroke="#3B82F6" strokeWidth={2} dot={{ r: 3 }} />
@@ -129,7 +129,7 @@ export default function AdminRevenuePage() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" />
                 <XAxis dataKey="category" tick={{ fontSize: 12 }} stroke="#9CA3AF" />
                 <YAxis tick={{ fontSize: 12 }} stroke="#9CA3AF" tickFormatter={v => `€${v}`} />
-                <Tooltip formatter={(v: number) => [`€${v}`, 'Revenue']} />
+                <Tooltip formatter={(v: unknown) => [`€${v}`, 'Revenue']} />
                 <Bar dataKey="revenue" fill="#FF4D30" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>

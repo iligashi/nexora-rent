@@ -433,14 +433,7 @@ export default function AdminExpensesPage() {
           </div>
 
           <DataTable
-            columns={
-              columns as {
-                key: string;
-                label: string;
-                render?: (row: Record<string, unknown>) => React.ReactNode;
-                className?: string;
-              }[]
-            }
+            columns={columns}
             data={expenses}
             loading={loading}
             emptyMessage={t.noExpensesFound}

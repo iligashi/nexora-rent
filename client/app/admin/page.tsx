@@ -127,7 +127,7 @@ export default function AdminDashboard() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" />
                 <XAxis dataKey="month" tick={{ fontSize: 12 }} stroke="#9CA3AF" />
                 <YAxis tick={{ fontSize: 12 }} stroke="#9CA3AF" tickFormatter={v => `€${v}`} />
-                <Tooltip formatter={(v: number) => [`€${v}`, t.revenue]} contentStyle={{ borderRadius: 8, border: '1px solid #E5E7EB' }} />
+                <Tooltip formatter={(v: unknown) => [`€${v}`, t.revenue]} contentStyle={{ borderRadius: 8, border: '1px solid #E5E7EB' }} />
                 <Line type="monotone" dataKey="revenue" stroke="#FF4D30" strokeWidth={2.5} dot={{ fill: '#FF4D30', r: 4 }} />
               </LineChart>
             </ResponsiveContainer>

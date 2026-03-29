@@ -394,13 +394,7 @@ export default function AdminNotificationsPage() {
           </div>
 
           <DataTable
-            columns={
-              logColumns as {
-                key: string;
-                label: string;
-                render?: (row: Record<string, unknown>) => React.ReactNode;
-              }[]
-            }
+            columns={logColumns}
             data={logs}
             loading={logsLoading}
             emptyMessage={t.noNotificationsFound}
