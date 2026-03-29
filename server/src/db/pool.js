@@ -16,15 +16,18 @@ const pool = mysql.createPool({
 // Helper that mimics pg-style { rows } return and converts $N placeholders to ?
 export async function query(sql, params = []) {
   let mysqlSql = sql;
-  // Replace $N placeholders with ? (from highest to lowest to avoid $1 matching $10)
-  const maxParam = params.length;
-  for (let i = maxParam; i >= 1; i--) {
-    mysqlSql = mysqlSql.replaceAll(`$${i}`, '?');
-  }
   // Remove PostgreSQL-specific type casts like ::car_category, ::numeric, ::fuel_type, etc.
   mysqlSql = mysqlSql.replace(/::\w+/g, '');
 
-  const [rows] = await pool.execute(mysqlSql, params);
+  // Convert $N placeholders to ? and expand params for duplicate placeholders
+  // e.g. "WHERE a = $1 OR b = $1" with params ['x'] → "WHERE a = ? OR b = ?" with params ['x', 'x']
+  const expandedParams = [];
+  mysqlSql = mysqlSql.replace(/\$(\d+)/g, (_, num) => {
+    expandedParams.push(params[parseInt(num) - 1]);
+    return '?';
+  });
+
+  const [rows] = await pool.query(mysqlSql, expandedParams);
   return { rows };
 }
 
