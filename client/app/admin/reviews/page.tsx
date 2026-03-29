@@ -317,7 +317,7 @@ export default function AdminReviewsPage() {
 
       {/* Table */}
       <DataTable
-        columns={columns as { key: string; label: string; render?: (row: Record<string, unknown>) => React.ReactNode }[]}
+        columns={columns}
         data={reviews}
         loading={loading}
         emptyMessage={t.noDataAvailable}

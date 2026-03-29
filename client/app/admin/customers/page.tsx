@@ -132,7 +132,7 @@ export default function AdminCustomersPage() {
       </div>
 
       <DataTable
-        columns={columns as { key: string; label: string; render?: (row: Record<string, unknown>) => React.ReactNode }[]}
+        columns={columns}
         data={customers}
         loading={loading}
         emptyMessage={t.noCustomersFound}

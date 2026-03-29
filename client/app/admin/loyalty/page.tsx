@@ -460,7 +460,7 @@ export default function AdminLoyaltyPage() {
           </div>
 
           <DataTable
-            columns={memberColumns as { key: string; label: string; render?: (row: Record<string, unknown>) => React.ReactNode; className?: string }[]}
+            columns={memberColumns}
             data={accounts}
             loading={loadingAccounts}
             emptyMessage={t.noDataAvailable}

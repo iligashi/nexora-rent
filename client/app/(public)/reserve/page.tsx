@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Calendar, Clock, Check, ArrowRight, ArrowLeft, Loader2 } from 'lucide-react';
@@ -36,6 +36,14 @@ function StepIndicator({ current, steps }: { current: number; steps: string[] })
 }
 
 export default function ReservePage() {
+  return (
+    <Suspense>
+      <ReserveContent />
+    </Suspense>
+  );
+}
+
+function ReserveContent() {
   const { t } = useLanguageStore();
   const steps = [t.datesAndLocation, t.chooseCar, t.extras, t.yourDetailsStep, t.confirmStep];
   const searchParams = useSearchParams();

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { SlidersHorizontal, Grid3X3, List, X } from 'lucide-react';
@@ -15,6 +15,14 @@ const fuels = ['petrol', 'diesel', 'hybrid', 'electric'];
 const transmissions = ['manual', 'automatic'];
 
 export default function CarsPage() {
+  return (
+    <Suspense>
+      <CarsContent />
+    </Suspense>
+  );
+}
+
+function CarsContent() {
   const { t } = useLanguageStore();
   const searchParams = useSearchParams();
   const router = useRouter();

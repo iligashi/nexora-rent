@@ -205,7 +205,7 @@ export default function AdminReservationsPage() {
       </div>
 
       <DataTable
-        columns={columns as { key: string; label: string; render?: (row: Record<string, unknown>) => React.ReactNode }[]}
+        columns={columns}
         data={reservations}
         loading={loading}
         emptyMessage={t.noReservationsFound}
