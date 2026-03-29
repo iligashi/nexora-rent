@@ -206,7 +206,7 @@ export default function AdminReservationsPage() {
 
       <DataTable
         columns={columns as { key: string; label: string; render?: (row: Record<string, unknown>) => React.ReactNode }[]}
-        data={reservations as unknown as Record<string, unknown>[]}
+        data={reservations}
         loading={loading}
         emptyMessage={t.noReservationsFound}
         onRowClick={(r) => setSelectedRes(r as unknown as Reservation)}

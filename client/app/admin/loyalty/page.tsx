@@ -461,7 +461,7 @@ export default function AdminLoyaltyPage() {
 
           <DataTable
             columns={memberColumns as { key: string; label: string; render?: (row: Record<string, unknown>) => React.ReactNode; className?: string }[]}
-            data={accounts as unknown as Record<string, unknown>[]}
+            data={accounts}
             loading={loadingAccounts}
             emptyMessage={t.noDataAvailable}
             onRowClick={(row) => openMemberPanel(row as unknown as LoyaltyAccount)}

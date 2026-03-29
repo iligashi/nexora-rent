@@ -123,7 +123,7 @@ export default function AdminCarsPage() {
         </select>
       </div>
 
-      <DataTable columns={columns} data={cars as unknown as Record<string, unknown>[]} loading={loading} emptyMessage={t.noCarsFound} />
+      <DataTable columns={columns} data={cars} loading={loading} emptyMessage={t.noCarsFound} />
     </div>
   );
 }

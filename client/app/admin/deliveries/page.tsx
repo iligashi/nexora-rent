@@ -486,7 +486,7 @@ export default function AdminDeliveriesPage() {
             render?: (row: Record<string, unknown>) => React.ReactNode;
           }[]
         }
-        data={deliveries as unknown as Record<string, unknown>[]}
+        data={deliveries}
         loading={loading}
         emptyMessage={t.noDeliveriesFound}
         onRowClick={r => openDetail(r as unknown as DeliveryAssignment)}

@@ -401,7 +401,7 @@ export default function AdminNotificationsPage() {
                 render?: (row: Record<string, unknown>) => React.ReactNode;
               }[]
             }
-            data={logs as unknown as Record<string, unknown>[]}
+            data={logs}
             loading={logsLoading}
             emptyMessage={t.noNotificationsFound}
           />

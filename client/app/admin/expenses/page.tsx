@@ -441,7 +441,7 @@ export default function AdminExpensesPage() {
                 className?: string;
               }[]
             }
-            data={expenses as unknown as Record<string, unknown>[]}
+            data={expenses}
             loading={loading}
             emptyMessage={t.noExpensesFound}
           />

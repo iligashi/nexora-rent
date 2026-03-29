@@ -17,7 +17,7 @@ interface DataTableProps<T> {
   onRowClick?: (row: T) => void;
 }
 
-export default function DataTable<T extends Record<string, unknown>>({
+export default function DataTable<T>({
   columns, data, loading, emptyMessage = 'No data found', onRowClick,
 }: DataTableProps<T>) {
   if (loading) {
@@ -66,7 +66,7 @@ export default function DataTable<T extends Record<string, unknown>>({
                 >
                   {columns.map(col => (
                     <td key={col.key} className={cn('px-6 py-4 text-sm text-gray-700', col.className)}>
-                      {col.render ? col.render(row) : String(row[col.key] ?? '')}
+                      {col.render ? col.render(row) : String((row as Record<string, unknown>)[col.key] ?? '')}
                     </td>
                   ))}
                 </tr>
