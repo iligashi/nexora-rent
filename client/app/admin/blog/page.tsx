@@ -71,7 +71,7 @@ export default function AdminBlogPage() {
   };
 
   const deletePost = async () => {
-    if (!editingPost || !confirm(t.confirmDelete || 'Are you sure you want to delete this post?')) return;
+    if (!editingPost || !confirm('Are you sure you want to delete this post?')) return;
     setDeleting(true);
     try {
       await api.delete(`/admin/blog/${editingPost.id}`);
@@ -148,21 +148,21 @@ export default function AdminBlogPage() {
               </button>
             )}
             <button onClick={() => setView('preview')} className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-              <Eye className="w-4 h-4" /> {t.preview || 'Preview'}
+              <Eye className="w-4 h-4" /> Preview
             </button>
             <button
               onClick={() => savePost(false)}
               disabled={saving || !canSave}
               className="px-4 py-2 text-sm font-medium text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors"
             >
-              {t.saveDraft || 'Save Draft'}
+              Save Draft
             </button>
             <button
               onClick={() => savePost(true)}
               disabled={saving || !canSave}
               className="px-5 py-2 bg-[#FF4D30] text-white text-sm font-semibold rounded-lg hover:bg-[#E6442B] disabled:opacity-50 transition-colors"
             >
-              {saving ? (t.saving || 'Saving...') : (editingPost?.is_published ? (t.update || 'Update') : (t.publish || 'Publish'))}
+              {saving ? t.saving : (editingPost?.is_published ? t.update : 'Publish')}
             </button>
           </div>
         </div>
@@ -174,7 +174,7 @@ export default function AdminBlogPage() {
             <div>
               <input
                 type="text"
-                placeholder={t.postTitlePlaceholder || 'Post title...'}
+                placeholder="Post title..."
                 className="w-full px-0 py-3 text-2xl font-bold text-gray-900 font-outfit placeholder:text-gray-300 border-none focus:outline-none focus:ring-0 bg-transparent"
                 value={form.title}
                 onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
@@ -186,7 +186,7 @@ export default function AdminBlogPage() {
             <RichTextEditor
               value={form.content}
               onChange={(val) => setForm(f => ({ ...f, content: val }))}
-              placeholder={t.writeContent || 'Write your content here...'}
+              placeholder="Write your content here..."
             />
           </div>
 
@@ -194,12 +194,12 @@ export default function AdminBlogPage() {
           <div className="space-y-5">
             {/* Cover image */}
             <div className="bg-white border border-gray-200 rounded-xl p-5">
-              <h3 className="text-sm font-semibold text-gray-900 mb-3">{t.coverImage || 'Cover Image'}</h3>
+              <h3 className="text-sm font-semibold text-gray-900 mb-3">Cover Image</h3>
               <div className="flex items-center gap-2 mb-3">
                 <LinkIcon className="w-4 h-4 text-gray-400 flex-shrink-0" />
                 <input
                   type="url"
-                  placeholder={t.imageUrlPlaceholder || 'Paste image URL...'}
+                  placeholder="Paste image URL..."
                   className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#FF4D30]/20 focus:border-[#FF4D30]"
                   value={form.cover_image}
                   onChange={e => setForm(f => ({ ...f, cover_image: e.target.value }))}
@@ -223,7 +223,7 @@ export default function AdminBlogPage() {
               <h3 className="text-sm font-semibold text-gray-900 mb-3">{t.excerpt}</h3>
               <textarea
                 rows={3}
-                placeholder={t.excerptPlaceholder || 'Brief summary of the post...'}
+                placeholder="Brief summary of the post..."
                 className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900 resize-none focus:outline-none focus:ring-2 focus:ring-[#FF4D30]/20 focus:border-[#FF4D30]"
                 value={form.excerpt}
                 onChange={e => setForm(f => ({ ...f, excerpt: e.target.value }))}
@@ -238,13 +238,13 @@ export default function AdminBlogPage() {
                   onClick={() => setForm(f => ({ ...f, is_published: false }))}
                   className={`flex-1 py-2 text-sm font-medium rounded-lg border transition-colors ${!form.is_published ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'}`}
                 >
-                  {t.draft || 'Draft'}
+                  Draft
                 </button>
                 <button
                   onClick={() => setForm(f => ({ ...f, is_published: true }))}
                   className={`flex-1 py-2 text-sm font-medium rounded-lg border transition-colors ${form.is_published ? 'bg-[#FF4D30] text-white border-[#FF4D30]' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'}`}
                 >
-                  {t.published || 'Published'}
+                  Published
                 </button>
               </div>
             </div>
@@ -259,9 +259,9 @@ export default function AdminBlogPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <button onClick={() => setView('editor')} className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors">
-          <ArrowLeft className="w-4 h-4" /> {t.backToEditor || 'Back to Editor'}
+          <ArrowLeft className="w-4 h-4" /> Back to Editor
         </button>
-        <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">{t.preview || 'Preview'}</span>
+        <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">Preview</span>
       </div>
 
       <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
