@@ -88,11 +88,10 @@ export default function BlogDetailPage() {
           </div>
         </div>
 
-        <div className="prose prose-invert prose-lg max-w-none">
-          {post.content.split('\n').map((paragraph, i) => (
-            paragraph.trim() ? <p key={i} className="text-text-secondary leading-relaxed mb-6">{paragraph}</p> : null
-          ))}
-        </div>
+        <div
+          className="prose prose-invert prose-lg max-w-none prose-p:text-text-secondary prose-p:leading-relaxed prose-a:text-accent prose-headings:text-white prose-strong:text-white prose-img:rounded-xl"
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
       </motion.article>
     </div>
   );

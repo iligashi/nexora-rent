@@ -451,13 +451,13 @@ router.get('/blog', async (req, res, next) => {
 
 router.post('/blog', requireManager, async (req, res, next) => {
   try {
-    const { title, content, excerpt, is_published } = req.body;
+    const { title, content, excerpt, cover_image, is_published } = req.body;
     const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     const id = uuidv4();
     await query(`
-      INSERT INTO blog_posts (id, title, slug, content, excerpt, author_id, is_published, published_at)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-    `, [id, title, slug, content, excerpt || null, req.user.id, is_published || false, is_published ? new Date() : null]);
+      INSERT INTO blog_posts (id, title, slug, content, excerpt, cover_image, author_id, is_published, published_at)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    `, [id, title, slug, content, excerpt || null, cover_image || null, req.user.id, is_published || false, is_published ? new Date() : null]);
     const { rows } = await query('SELECT * FROM blog_posts WHERE id = $1', [id]);
     res.status(201).json({ post: rows[0] });
   } catch (err) { next(err); }
@@ -465,13 +465,13 @@ router.post('/blog', requireManager, async (req, res, next) => {
 
 router.put('/blog/:id', requireManager, async (req, res, next) => {
   try {
-    const { title, content, excerpt, is_published } = req.body;
+    const { title, content, excerpt, cover_image, is_published } = req.body;
     await query(`
       UPDATE blog_posts SET title=COALESCE($1,title), content=COALESCE($2,content),
-        excerpt=COALESCE($3,excerpt), is_published=COALESCE($4,is_published),
-        published_at = CASE WHEN $4 = true AND published_at IS NULL THEN NOW() ELSE published_at END
-      WHERE id = $5
-    `, [title, content, excerpt, is_published, req.params.id]);
+        excerpt=COALESCE($3,excerpt), cover_image=COALESCE($4,cover_image), is_published=COALESCE($5,is_published),
+        published_at = CASE WHEN $5 = true AND published_at IS NULL THEN NOW() ELSE published_at END
+      WHERE id = $6
+    `, [title, content, excerpt, cover_image || null, is_published, req.params.id]);
     const { rows } = await query('SELECT * FROM blog_posts WHERE id = $1', [req.params.id]);
     if (rows.length === 0) return res.status(404).json({ error: 'Post not found' });
     res.json({ post: rows[0] });

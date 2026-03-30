@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Calendar, User } from 'lucide-react';
 import api from '@/lib/api';
@@ -58,7 +57,7 @@ export default function BlogPage() {
                 <Link href={`/blog/${post.slug}`} className="group block bg-bg-secondary border border-border rounded-xl overflow-hidden hover:shadow-xl transition-shadow">
                   <div className="relative aspect-[16/10] bg-bg-tertiary overflow-hidden">
                     {post.cover_image && (
-                      <Image src={post.cover_image} alt={post.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img src={post.cover_image} alt={post.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     )}
                   </div>
                   <div className="p-5">
